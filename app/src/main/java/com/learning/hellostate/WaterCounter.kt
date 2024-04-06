@@ -36,16 +36,6 @@ fun WaterCounter(modifier: Modifier = Modifier) {
             showTask=showTask,
             onCloseTask = { showTask=false},
             modifier=modifier)
-        StatelessWaterCounter(count = count*2, onIncrement = { count++ } , onCountCleared = { count = 0 },
-            showTask=showTask,
-            onCloseTask = { showTask=false},
-            modifier=modifier)
-        Text("JUICE", modifier=Modifier, style = TextStyle(fontWeight = FontWeight.Bold))
-
-        StatelessWaterCounter(count = juiceCount, onIncrement = { juiceCount++ } , onCountCleared = { juiceCount = 0 },
-            showTask=showJuiceTask,
-            onCloseTask = { showJuiceTask=false},
-            modifier=modifier)
     }
 
 
@@ -56,7 +46,7 @@ fun StatelessWaterCounter(count: Int, onIncrement: ()->Unit, onCountCleared: ()-
     Column(modifier=modifier.padding(16.dp)) {
            if(count in 1..6 || count > 10) {
             if(showTask) {
-                WellnessTaskItem(taskName = "Have you taken a walk?", onClose = onCloseTask)
+                WellnessTaskItem(taskName = "Have you taken a walk?")
             }
             Text(text = "You have had some nice $count glasses", modifier = modifier.padding(16.dp))
         }
