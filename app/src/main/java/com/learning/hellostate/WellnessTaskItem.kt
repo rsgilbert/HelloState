@@ -25,7 +25,7 @@ import com.learning.hellostate.ui.theme.HelloStateTheme
 @Composable
 fun WellnessTaskItemPreview() {
     HelloStateTheme {
-        WellnessTaskItem(taskName = "Test task")
+        WellnessTaskItem(taskName = "Test task", checked = false, onCheckedChange = {}, onClose = {})
     }
 }
 
@@ -53,19 +53,3 @@ fun WellnessTaskItem(
     }
 }
 
-@Composable
-fun WellnessTaskItem(taskName: String, modifier: Modifier = Modifier) {
-    var checkedState by rememberSaveable {
-        mutableStateOf(false)
-    }
-
-    WellnessTaskItem(
-        taskName,
-        checkedState,
-        onCheckedChange = { newValue ->
-            checkedState = newValue
-        },
-        onClose = { /*TODO*/ },
-        modifier = modifier
-    )
-}

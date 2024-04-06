@@ -7,21 +7,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 
 
-fun getWellnessTasks() = List(30) { i ->
-    WellnessTask(i, "Task # $i")
-}
 
 
 @Composable
 fun WellnessTaskList(
-    list: List<WellnessTask> = remember {
-        getWellnessTasks()
-    },
+    list: List<WellnessTask>,
+    onCheckedChange: (WellnessTask, Boolean) -> Unit,
+    onCloseTask : (task: WellnessTask) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(modifier = modifier) {
-        items(list) { task ->
-            WellnessTaskItem(taskName = task.label)
+        items(list, key = { task -> task.id }) { task ->
+            WellnessTaskItem(taskName = task.label, task.checked,  onCheckedChange = { onCheckedChange(task, it) }, onClose={ onCloseTask(task) })
         }
     }
 }

@@ -46,7 +46,7 @@ fun StatelessWaterCounter(count: Int, onIncrement: ()->Unit, onCountCleared: ()-
     Column(modifier=modifier.padding(16.dp)) {
            if(count in 1..6 || count > 10) {
             if(showTask) {
-                WellnessTaskItem(taskName = "Have you taken a walk?")
+                WellnessTaskItem(taskName = "Have you taken a walk?", false, onCheckedChange = {}, onClose=onCloseTask)
             }
             Text(text = "You have had some nice $count glasses", modifier = modifier.padding(16.dp))
         }
