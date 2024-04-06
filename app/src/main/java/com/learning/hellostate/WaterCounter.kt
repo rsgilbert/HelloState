@@ -13,34 +13,64 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun WaterCounter(modifier: Modifier = Modifier) {
+    var count by rememberSaveable {
+        mutableStateOf(0)
+    }
+    var showTask by remember { mutableStateOf(true ) }
+
+
+    var juiceCount by rememberSaveable {
+        mutableStateOf(0)
+    }
+    var showJuiceTask by remember { mutableStateOf(true ) }
+
+    Column {
+        StatelessWaterCounter(count = count, onIncrement = { count++ } , onCountCleared = { count = 0 },
+            showTask=showTask,
+            onCloseTask = { showTask=false},
+            modifier=modifier)
+        StatelessWaterCounter(count = count*2, onIncrement = { count++ } , onCountCleared = { count = 0 },
+            showTask=showTask,
+            onCloseTask = { showTask=false},
+            modifier=modifier)
+        Text("JUICE", modifier=Modifier, style = TextStyle(fontWeight = FontWeight.Bold))
+
+        StatelessWaterCounter(count = juiceCount, onIncrement = { juiceCount++ } , onCountCleared = { juiceCount = 0 },
+            showTask=showJuiceTask,
+            onCloseTask = { showJuiceTask=false},
+            modifier=modifier)
+    }
+
+
+}
+
+@Composable
+fun StatelessWaterCounter(count: Int, onIncrement: ()->Unit, onCountCleared: ()->Unit, showTask: Boolean, onCloseTask: ()->Unit, modifier: Modifier= Modifier) {
     Column(modifier=modifier.padding(16.dp)) {
-        var count: Int by rememberSaveable {
-            mutableStateOf(0)
-        }
-
-        if(count in 1..6 || count > 10) {
-            var showTask by remember { mutableStateOf(true ) }
-
+           if(count in 1..6 || count > 10) {
             if(showTask) {
-                WellnessTaskItem(taskName = "Have you taken a walk?", onClose = { showTask = false })
+                WellnessTaskItem(taskName = "Have you taken a walk?", onClose = onCloseTask)
             }
             Text(text = "You have had some nice $count glasses", modifier = modifier.padding(16.dp))
         }
 
         Row(Modifier.padding(top=8.dp), horizontalArrangement = Arrangement.SpaceEvenly) {
             Button(onClick = {
-                count++
+                onIncrement()
             },
                 enabled=count<15) {
                 Text(text = "Add one")
             }
 
             Button(onClick = {
-                count = 0
+                onCountCleared()
             }) {
                 Text("Clear water count")
             }
